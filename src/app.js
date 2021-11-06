@@ -16,9 +16,13 @@ bot.on("start", () => {
 });
 
 bot.on("message", (data) => {
-  if (data.type !== "message") {
+  if (
+    data.type !== "message" || // Only allow message events through
+    data.subtype === 'bot_message' || // Don't record messages the bot sends
+    !data.text.includes(bot.self.id)) { // Allow allow messages where the bot is referenced
     return;
   }
+
   handleMessage(data.text, data);
 });
 
@@ -40,7 +44,8 @@ const handleMessage = async (text, data) => {
   }
 
   if (text.includes(lang.JAMMER.LIST)) {
-    JammersMessage.showJammers();
+    JammersMessage.showJammerList();
+    // JammersMessage.showJammers();
   }
 
   if (text.includes(lang.JAM.GET)) {

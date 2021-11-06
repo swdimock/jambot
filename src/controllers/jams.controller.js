@@ -30,7 +30,8 @@ exports.addJam = (videoIdParam) => {
     if (items) {
       const title = items.snippet?.title;
       const link = `https://www.youtube.com/watch?v=${videoIdParam}`;
-      await Jams.create({ title, artist: null, link })
+      const artist = title.split('-')[0]?.trim();
+      await Jams.create({ title, artist, link })
         .then((newJam) => {
           resolve(newJam);
         })
@@ -72,7 +73,6 @@ const getYoutubeVideoMeta = (videoUid) => {
   apiUrl.searchParams.append("id", videoUid);
   apiUrl.searchParams.append("key", "AIzaSyCVDCuoRpnyXXuw5D_bc9bYK1VG98ZkSvo");
   apiUrl.searchParams.append("part", "snippet");
-  console.log("API URL", apiUrl);
   return new Promise((resolve, reject) => {
     axios
       .get(apiUrl.href)

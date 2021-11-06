@@ -1,3 +1,4 @@
+require("dotenv").config();
 const SlackBot = require("slackbots");
 const token = process.env.BOT_TOKEN;
 

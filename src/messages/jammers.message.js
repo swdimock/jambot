@@ -4,7 +4,15 @@ const { channel, bot } = require("../config/bot");
 
 exports.pickJammer = async () => {
   // Check if jammer exists
-  // await Jammers.getCurrentJammer();
+  const currentJammer = await Jammers.getCurrentJammer();
+
+  if (currentJammer) {
+    bot.postMessageToChannel(
+      channel,
+      "Whoa, whoa, whoa.  We already have a jammer selected.  Cool your jets!"
+    );
+    return;
+  }
 
   // Select a "random" jammer
   Jammers.getRandomJammer().then((jammer) => {
@@ -25,10 +33,12 @@ exports.pickJammer = async () => {
       () =>
         bot.postMessageToChannel(
           channel,
-          `${jammer.name}!  It's you!  The chosen one! :tada:`
+          `${jammer.profile?.display_name}!  It's you!  The chosen one! :tada:`
         ),
       2000
     );
+    // Set the chosen jammer to today
+    Jammers.setDailyJammer();
   });
 };
 
@@ -39,70 +49,78 @@ exports.rerollJammer = () => {
       () =>
         bot.postMessageToChannel(
           channel,
-          `It's ${jammer.name}!  We were saving the best for last!`
+          `It's ${jammer.profile?.display_name}!  We were saving the best for last!`
         ),
       2000
     );
+    // Set the chosen jammer to today
+    Jammers.setDailyJammer();
   });
 };
 
-exports.addJammer = async (text) => {
-  const slackUserName = Helper.extractUserFromString(text, "add jammer");
-  const user = await bot.getUser(slackUserName);
+// exports.addJammer = async (text) => {
+//   const slackUserName = Helper.extractUserFromString(text, "add jammer");
+//   const user = await bot.getUser(slackUserName);
 
-  if (!user) {
-    bot.postMessageToChannel(
-      channel,
-      `I have no clue who "${slackUserName}" is...`
-    );
-  } else {
-    // Add the identified jammer to the list and message
-    Jammers.addJammer({
-      name: slackUserName,
-      display_name: user.profile?.display_name,
-      email: user.profile?.email
-    }).then((jammer) => {
-      // Post in the main channel
-      bot.postMessageToChannel(
-        channel,
-        `Adding a new jammer... ${jammer.name}`
-      );
+//   if (!user) {
+//     bot.postMessageToChannel(
+//       channel,
+//       `I have no clue who "${slackUserName}" is...`
+//     );
+//   } else {
+//     // Add the identified jammer to the list and message
+//     Jammers.addJammer({
+//       name: slackUserName,
+//       display_name: user.profile?.display_name,
+//       email: user.profile?.email,
+//     }).then((jammer) => {
+//       // Post in the main channel
+//       bot.postMessageToChannel(
+//         channel,
+//         `Adding a new jammer... ${jammer.name}`
+//       );
 
-      // Let the user know
-      bot.postMessage(user.id, "Hey nerd.  You're a jammer now.");
-    });
-  }
-};
+//       // Let the user know
+//       bot.postMessage(user.id, "Hey nerd.  You're a jammer now.");
+//     });
+//   }
+// };
 
-exports.removeJammer = async (text) => {
-  const slackUserName = Helper.extractUserFromString(text, "remove jammer");
-  const user = await bot.getUser(slackUserName);
+// exports.removeJammer = async (text) => {
+//   const slackUserName = Helper.extractUserFromString(text, "remove jammer");
+//   const user = await bot.getUser(slackUserName);
 
-  if (!user) {
-    bot.postMessageToChannel(
-      channel,
-      `Try again chief.  "${slackUserName}" isn't real.`
-    );
-  } else {
-    Jammers.deleteJammer(slackUserName).then((result) => {
-      if (!result) {
-        bot.postMessageToChannel(
-          channel,
-          `Hold up, ${slackUserName} isn't an actual jammer!`
-        );
-      } else {
-        bot.postMessageToChannel(
-          channel,
-          `${slackUserName} has been 86'ed from the jam.`
-        );
-      }
-    });
-  }
-};
+//   if (!user) {
+//     bot.postMessageToChannel(
+//       channel,
+//       `Try again chief.  "${slackUserName}" isn't real.`
+//     );
+//   } else {
+//     Jammers.deleteJammer(slackUserName).then((result) => {
+//       if (!result) {
+//         bot.postMessageToChannel(
+//           channel,
+//           `Hold up, ${slackUserName} isn't an actual jammer!`
+//         );
+//       } else {
+//         bot.postMessageToChannel(
+//           channel,
+//           `${slackUserName} has been 86'ed from the jam.`
+//         );
+//       }
+//     });
+//   }
+// };
 
-exports.showJammers = () => {
-  Jammers.getJammers().then((jammers) => {
-    const jammerList = jammers.map((jammer) => jammer.name).join(", ");
-    bot.postMessageToChannel(channel, `Here are the jammers... ${jammerList}`);
-  });
-};
+// exports.showJammers = () => {
+//   Jammers.getJammers().then((jammers) => {
+//     const jammerList = jammers.map((jammer) => jammer.name).join(", ");
+//     bot.postMessageToChannel(channel, `Here are the jammers... ${jammerList}`);
+//   });
+// };
+
+// exports.showJammerList = () => {
+//   const users = Jammers.getLocalJammers();
+//   const jammerList = users.map((user) => user.profile.display_name).join(", ");
+//   bot.postMessageToChannel(channel, `Here are the jammers... ${jammerList}`);
+// }

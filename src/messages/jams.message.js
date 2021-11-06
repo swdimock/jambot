@@ -18,7 +18,7 @@ exports.pickJam = async (data) => {
   if (currentJamEvent.length > 0) {
     bot.postMessageToChannel(
       channel,
-      "Whoa!  Hang on a minute.  We already have a jam for today.  Check yo'self."
+      "Whoa!  Hang on a minute.  We already have a jam for today.  Check yo'self.  <https://giphy.com/gifs/cMQRlCqkZ5CYU>"
     );
     return;
   }
@@ -37,7 +37,7 @@ exports.pickJam = async (data) => {
       if (!jam) {
         bot.postMessageToChannel(
           channel,
-          "Shoot... couldn't find that one.  Try again?"
+          "Shoot... couldn't find that one.  Try again? <https://giphy.com/gifs/moodman-TJawtKM6OCKkvwCIqX>"
         );
         return;
       }
