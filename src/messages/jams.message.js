@@ -23,9 +23,6 @@ exports.pickJam = async (data) => {
     return;
   }
 
-  // TODO, since we don't save the random jammer yet, we cannot confirm who the jammer should actually be
-  console.log("current picker slackId: ", jammer.slackId);
-
   // Extract the URL video param
   const urlString = Helper.extractUrlFromString(data.text);
   const url = new URL(urlString);

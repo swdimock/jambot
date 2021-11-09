@@ -8,6 +8,7 @@ const { channel, bot } = require("./config/bot");
 require("./config/db");
 
 bot.on("start", () => {
+  console.log(channel);
   bot.postMessageToChannel(channel, "Ready to rock!!");
 
   // TODO: Check if configuration exists, if not get the setup
@@ -22,7 +23,6 @@ bot.on("message", (data) => {
     !data.text.includes(bot.self.id)) { // Allow allow messages where the bot is referenced
     return;
   }
-
   handleMessage(data.text, data);
 });
 
@@ -31,34 +31,36 @@ const handleMessage = async (text, data) => {
     JammersMessage.pickJammer();
   }
 
-  if (text.includes(lang.JAMMER.UPDATE)) {
+  else if (text.includes(lang.JAMMER.UPDATE)) {
     JammersMessage.rerollJammer();
   }
 
-  if (text.includes(lang.JAMMER.CREATE)) {
-    JammersMessage.addJammer(text);
+  else if (text.includes(lang.JAMMER.CURRENT)) {
+    JammersMessage.currentJammer();
   }
 
-  if (text.includes(lang.JAMMER.DELETE)) {
-    JammersMessage.removeJammer(text);
-  }
-
-  if (text.includes(lang.JAMMER.LIST)) {
-    JammersMessage.showJammerList();
-    // JammersMessage.showJammers();
-  }
-
-  if (text.includes(lang.JAM.GET)) {
+  else if (text.includes(lang.JAM.GET)) {
     JamsMessage.pickJam(data);
   }
 
   // TODO
-  if (text.includes(lang.SYSTEM.STATS)) {
-    SystemMessage.getStats();
+  // if (text.includes(lang.SYSTEM.STATS)) {
+  //   SystemMessage.getStats();
+  // }
+
+  else if (text.includes(lang.SYSTEM.CHALLENGE)) {
+    SystemMessage.getChallenge();
   }
 
-  // TODO
-  if (text.includes(lang.SYSTEM.CHALLENGE)) {
-    SystemMessage.getChallenge();
+  else if (text.includes(lang.SYSTEM.LISTCOMMANDS)) {
+    SystemMessage.getCommandList();
+  }
+
+  else if (text.includes(lang.SYSTEM.SETCHANNEL)) {
+    SystemMessage.setChannel(data);
+  }
+
+  else {
+    bot.postMessageToChannel(channel, "Human, I have no idea what you're talking about.  Try \"list commands\".");
   }
 };

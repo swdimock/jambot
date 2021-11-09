@@ -2,15 +2,44 @@ exports.lang = {
   JAMMER: {
     GET: "pick jammer",
     UPDATE: "reroll jammer",
-    CREATE: "add jammer",
-    DELETE: "remove jammer",
-    LIST: "show jammers"
+    CURRENT: "current jammer",
   },
   JAM: {
-    GET: "youtube.com"
+    GET: "youtube.com",
   },
   SYSTEM: {
     STATS: "get stats",
-    CHALLENGE: "get challenge"
-  }
+    CHALLENGE: "get challenge",
+    LISTCOMMANDS: "list commands",
+    SETCHANNEL: "set channel"
+  },
+  CHALLENGES: [
+    "Jam a classic rock song",
+    "Jam a 90s alt-rock song",
+    "Jam a country song",
+    "Jam a k-pop song",
+    "Jam a death metal song",
+    "Jam a hip-hop song",
+    "Jam an obnoxious dubstep song",
+    "Jam an 80s power rock song",
+    "Jam a meme song",
+    "Jam something that isn't a song but could kind of be like a song",
+    "Jam a song with a female lead singer",
+    "Jam a song which doesn't have a guitar in it",
+    "Jam to acapella",
+    "Jam a song that lasts more that 10 minutes",
+    "Jam a song that lasts less than 2 minutes",
+    "Jam a song that will almost certainly make everyone else groan",
+    "Jam a song that you can self-admittedly sing every word to",
+    "Jam a song that you hate but you know everyone else is just gonna love",
+    "Jam a jam with jam... and/or peanut butter",
+    "Jam the fastest BPM song you can find",
+    "Jam the absolutely most ludacriously happy song that you can find",
+    "Jam the most depressing song you can find",
+    "Jam something that reminds you of summer",
+    "Jam something that reminds you of spring",
+    "Jam something that reminds you of winter",
+    "Jam something that reminds you of fall",
+    "Jam a song that you've karaoked before",
+  ],
 };

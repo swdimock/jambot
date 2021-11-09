@@ -53,12 +53,34 @@ exports.getRandomJammer = () => {
 
 // Sets a Jammer as today's jammer, without an attached video
 exports.setDailyJammer = (jammer) => {
-  null;
+  return new Promise(async (resolve, reject) => {
+    Events.create({ jammerId: jammer.id })
+    .then((dailyJammer) => {
+      resolve(dailyJammer);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+  });
 }
 
+/**
+ * Gets a jammer for the current day if it's set
+ * @returns 
+ */
 exports.getCurrentJammer = () => {
-  return null;
-  // return new Promise(async (resolve, reject) => {});
+  return new Promise(async (resolve, reject) => {
+    Events.findOne({
+      created_at: {
+        "$lte": new Date()
+      }
+    }, (err, jammer) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(jammer);
+    });
+  });
 };
 
 /**
@@ -69,7 +91,10 @@ const getLocalJammers = () => {
   // TODO limit by channel
   return bot.users.filter(user => !user.is_bot && user.name !== 'slackbot');
 }
-// exports.getLocalJammers();
+
+exports.getJammerList = () => {
+  return getLocalJammers();
+}
 
 // Get jammers
 // exports.getJammers = () => {

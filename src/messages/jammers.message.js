@@ -26,19 +26,30 @@ exports.pickJammer = async () => {
       1000
     );
     setTimeout(
-      () => bot.postMessageToChannel(channel, ":three: :two: :one:..."),
+      () => bot.postMessageToChannel(channel, ":three:... :two:... :one:..."),
       1500
     );
     setTimeout(
-      () =>
-        bot.postMessageToChannel(
-          channel,
-          `${jammer.profile?.display_name}!  It's you!  The chosen one! :tada:`
-        ),
+      () => {
+        bot
+          .postMessageToChannel(
+            channel,
+            jammer 
+              ? `${jammer.profile?.display_name}!  It's you!  The chosen one! :tada:`
+              : "So this is embarrasing.  I couldn't find anyone at all..."
+          );
+        bot
+          .postMessageToUser(
+            jammer.name,
+            `Hey ${jammer.profile?.display_name}!  Quit slackin' and get to jammin'!  It's your turn #jam.`
+          );
+      },
       2000
     );
     // Set the chosen jammer to today
-    Jammers.setDailyJammer();
+    if (jammer) {
+      Jammers.setDailyJammer(jammer);
+    }
   });
 };
 
@@ -49,78 +60,30 @@ exports.rerollJammer = () => {
       () =>
         bot.postMessageToChannel(
           channel,
-          `It's ${jammer.profile?.display_name}!  We were saving the best for last!`
+          jammer 
+            ? `It's ${jammer.profile?.display_name}!  We were saving the best for last!` 
+            : "I couldn't find anyone.  I'm not taking responsibility for this.  This is on you."
         ),
       2000
     );
     // Set the chosen jammer to today
-    Jammers.setDailyJammer();
+    if (jammer) {
+      Jammers.setDailyJammer(jammer);
+    }
   });
 };
 
-// exports.addJammer = async (text) => {
-//   const slackUserName = Helper.extractUserFromString(text, "add jammer");
-//   const user = await bot.getUser(slackUserName);
-
-//   if (!user) {
-//     bot.postMessageToChannel(
-//       channel,
-//       `I have no clue who "${slackUserName}" is...`
-//     );
-//   } else {
-//     // Add the identified jammer to the list and message
-//     Jammers.addJammer({
-//       name: slackUserName,
-//       display_name: user.profile?.display_name,
-//       email: user.profile?.email,
-//     }).then((jammer) => {
-//       // Post in the main channel
-//       bot.postMessageToChannel(
-//         channel,
-//         `Adding a new jammer... ${jammer.name}`
-//       );
-
-//       // Let the user know
-//       bot.postMessage(user.id, "Hey nerd.  You're a jammer now.");
-//     });
-//   }
-// };
-
-// exports.removeJammer = async (text) => {
-//   const slackUserName = Helper.extractUserFromString(text, "remove jammer");
-//   const user = await bot.getUser(slackUserName);
-
-//   if (!user) {
-//     bot.postMessageToChannel(
-//       channel,
-//       `Try again chief.  "${slackUserName}" isn't real.`
-//     );
-//   } else {
-//     Jammers.deleteJammer(slackUserName).then((result) => {
-//       if (!result) {
-//         bot.postMessageToChannel(
-//           channel,
-//           `Hold up, ${slackUserName} isn't an actual jammer!`
-//         );
-//       } else {
-//         bot.postMessageToChannel(
-//           channel,
-//           `${slackUserName} has been 86'ed from the jam.`
-//         );
-//       }
-//     });
-//   }
-// };
-
-// exports.showJammers = () => {
-//   Jammers.getJammers().then((jammers) => {
-//     const jammerList = jammers.map((jammer) => jammer.name).join(", ");
-//     bot.postMessageToChannel(channel, `Here are the jammers... ${jammerList}`);
-//   });
-// };
-
-// exports.showJammerList = () => {
-//   const users = Jammers.getLocalJammers();
-//   const jammerList = users.map((user) => user.profile.display_name).join(", ");
-//   bot.postMessageToChannel(channel, `Here are the jammers... ${jammerList}`);
-// }
+exports.currentJammer = () => {
+  Jammers.getCurrentJammer().then((jammer) => {
+    const jammerId = jammer?.jammerId[0];
+    const jammers = Jammers.getJammerList();
+    const jammerFound = jammers.find((jamz) => jamz.id === jammerId)
+    
+    bot.postMessageToChannel(
+      channel,
+      jammerFound 
+        ? `Temporary memory loss. human?  ${jammerFound.profile?.display_name} is today's jammer!` 
+        : "What's wrong with you, human?  There's no jammer selected yet today."
+    )
+  })
+}

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const JammedSchema = new Schema({
   jammerId: [
     {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "jammersModel"
     }
   ],
