@@ -26,7 +26,7 @@ exports.addJam = (videoIdParam) => {
 const getYoutubeVideoMeta = (videoUid) => {
   const apiUrl = new URL("https://www.googleapis.com/youtube/v3/videos");
   apiUrl.searchParams.append("id", videoUid);
-  apiUrl.searchParams.append("key", "AIzaSyCVDCuoRpnyXXuw5D_bc9bYK1VG98ZkSvo");
+  apiUrl.searchParams.append("key", process.env.YOUTUBE_TOKEN);
   apiUrl.searchParams.append("part", "snippet");
   return new Promise((resolve, reject) => {
     axios
