@@ -1,4 +1,3 @@
-const Jammers = require("../models/jammers.model");
 const Events = require("../models/jammed.model");
 const { bot } = require("../config/bot");
 
@@ -95,60 +94,3 @@ const getLocalJammers = () => {
 exports.getJammerList = () => {
   return getLocalJammers();
 }
-
-// Get jammers
-// exports.getJammers = () => {
-//   return new Promise((resolve, reject) => {
-//     Jammers.find({}, (err, jammers) => {
-//       if (err) {
-//         reject(err);
-//       }
-//       resolve(jammers);
-//     });
-//   });
-// };
-
-// Get a jammer
-// exports.getJammer = (args) => {
-//   return new Promise((resolve, reject) => {
-//     Jammers.findOne(args, (err, jammer) => {
-//       if (err) {
-//         reject(err);
-//       }
-//       resolve(jammer);
-//     });
-//   });
-// };
-
-// Add a jammer
-// exports.addJammer = ({ name, display_name, email }) => {
-//   return new Promise((resolve, reject) => {
-//     Jammers.create({ name, display_name, email })
-//       .then((newJammer) => {
-//         resolve(newJammer);
-//       })
-//       .catch((error) => {
-//         reject(error);
-//       });
-//   });
-// };
-
-// Update a jammer
-// exports.updateJammer = (req, res) => {
-//   return new Promise((resolve, reject) => {
-//     // Jammers.findOneAndUpdate()
-//   });
-// };
-
-// Delete a jammer
-// exports.deleteJammer = async (name) => {
-//   return new Promise((resolve, reject) => {
-//     Jammers.deleteOne({ name: name })
-//       .then(() => {
-//         resolve(true);
-//       })
-//       .catch((error) => {
-//         reject(error);
-//       });
-//   });
-// };

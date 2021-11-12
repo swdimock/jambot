@@ -3,20 +3,22 @@ const System = require("../models/system.model.js");
 exports.getChannel = () => {
     return new Promise(async (resolve, reject) => {
         System.find({
-            channel
-        }, (err) => {
+            channel: {
+              $exists: true
+            }
+        }, (err, result) => {
             if (err) {
                 reject(err);
             }
-            resolve(err);
+            resolve(result);
         });
     });
 }
 
 // Set the channel name
-exports.setChannel = ({ channel }) => {
+exports.setChannel = (channel) => {
   return new Promise((resolve, reject) => {
-    System.create({ channel })
+    System.findOneAndUpdate({ channel })
       .then((channel) => {
         resolve(channel);
       })
