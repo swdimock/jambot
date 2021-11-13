@@ -8,5 +8,5 @@ exports.channel = 'jam';
 // Configure the Bot
 exports.bot = new SlackBot({
   token,
-  name: "Jamtronic"
+  name: "Jambot"
 });
