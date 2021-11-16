@@ -71,7 +71,7 @@ exports.getCurrentJammer = () => {
   return new Promise(async (resolve, reject) => {
     Events.findOne({
       created_at: {
-        "$lte": new Date()
+        "$gte": new Date()
       }
     }, (err, jammer) => {
       if (err) {

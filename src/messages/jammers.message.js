@@ -16,39 +16,35 @@ exports.pickJammer = async () => {
 
   // Select a "random" jammer
   Jammers.getRandomJammer().then((jammer) => {
-    bot.postMessageToChannel(channel, botTalk(lang.BOT.JAMMERS.FINDJAMMERS));
-    setTimeout(
-      () =>
-        bot.postMessageToChannel(
-          channel,
-          botTalk(lang.BOT.JAMMERS.FINDJAMMERSTALL1)
-        ),
-      1000
-    );
-    setTimeout(
-      () => bot.postMessageToChannel(channel, botTalk(lang.BOT.JAMMERS.FINDJAMMERSTALL2)),
-      1500
-    );
-    setTimeout(
-      () => {
-        bot
+    if (!jammer) {
+      bot
           .postMessageToChannel(
             channel,
-            jammer 
-              ? botTalk(lang.BOT.JAMMERS.PICKEDJAMMER, [jammer.profile?.display_name])
-              : botTalk(lang.BOT.JAMMERS.NOJAMMER)
-          );
-        bot
-          .postMessageToUser(
-            jammer.name,
-            botTalk(lang.BOT.JAMMERS.NOTIFYJAMMER, [jammer.profile?.display_name])
-          );
-      },
-      2000
-    );
-    // Set the chosen jammer to today
-    if (jammer) {
+            botTalk(lang.BOT.JAMMERS.NOJAMMER));
+    } else {
       Jammers.setDailyJammer(jammer);
+      bot.postMessageToChannel(channel, botTalk(lang.BOT.JAMMERS.FINDJAMMERS));
+      setTimeout(
+        () =>
+          bot.postMessageToChannel(
+            channel,
+            botTalk(lang.BOT.JAMMERS.FINDJAMMERSTALL1)
+          ),
+        1000);
+
+      setTimeout(
+        () => bot.postMessageToChannel(channel, botTalk(lang.BOT.JAMMERS.FINDJAMMERSTALL2)),
+        1500);
+
+      setTimeout(
+        () => {
+          bot.postMessageToChannel(
+              channel,
+              botTalk(lang.BOT.JAMMERS.PICKEDJAMMER, [jammer.profile?.display_name]));
+          bot.postMessageToUser(
+              jammer.name,
+              botTalk(lang.BOT.JAMMERS.NOTIFYJAMMER, [jammer.profile?.display_name]));
+        }, 2000);
     }
   });
 };
