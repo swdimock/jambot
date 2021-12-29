@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.get("/auth", (req, res) => {
   console.log('req', req);
-  console.log('res', res);
+  res.send('authed!');
 });
 
 app.listen(port, () => {
