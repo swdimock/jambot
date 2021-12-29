@@ -1,7 +1,5 @@
 const axios = require("axios");
 
-axios.
-
 exports.grantSlackAccessToken = (code) => {
   return new Promise((resolve, reject) => {
     axios({
