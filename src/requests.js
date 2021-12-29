@@ -18,11 +18,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/auth", async (req, res) => {
-  const token = await Auth.grantSlackAccessToken(req.query.code);
-  if (!token.data.ok) {
-    res.send('Failed!', token.data.error);
-  } else {
+  try {
+    const token = await Auth.grantSlackAccessToken(req.query.code);
     res.send('Success!', token.data);
+  } catch (error) {
+    res.send('Failed!', error);
   }
 });
 
