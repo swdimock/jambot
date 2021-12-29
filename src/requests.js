@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 
 app.get("/auth", async (req, res) => {
   const token = await Auth.grantSlackAccessToken(req.code);
-  console.log('req.code', req.code);
+  console.log('req.code', req.query.code);
   console.log('token', token);
   res.send('authed!');
 });
