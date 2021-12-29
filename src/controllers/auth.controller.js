@@ -1,12 +1,20 @@
 const axios = require("axios");
 
+axios.
+
 exports.grantSlackAccessToken = (code) => {
   return new Promise((resolve, reject) => {
-    axios
-      .post('https://slack.com/api/oauth.access', {
+    axios({
+      method: 'post',
+      url: 'https://slack.com/api/oauth.v2.access',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data: {
         code,
-        client_id: 'A027FRCHXM2',
-      })
+        client_id: 'A027FRCHXM2'
+      },
+    })
       .then((response) => {
         resolve(response);
       })
