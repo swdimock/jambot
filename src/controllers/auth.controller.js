@@ -1,4 +1,5 @@
 const axios = require("axios");
+const qs = require('qs');
 
 exports.grantSlackAccessToken = (code) => {
   return new Promise((resolve, reject) => {
@@ -8,10 +9,10 @@ exports.grantSlackAccessToken = (code) => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      data: {
+      data: qs.stringify({
         code,
-        client_id: 'A027FRCHXM2'
-      },
+        redirect_uri: 'https://slack-jambot.herokuapp.com/auth'
+      }),
     })
       .then((response) => {
         resolve(response);
