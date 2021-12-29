@@ -1,6 +1,7 @@
 const Jammers = require("./controllers/jammers.controller.js");
 const Jams = require("./controllers/jams.controller.js");
 const Events = require("./controllers/jammed.controller.js");
+const Auth = require("./controllers/auth.controller");
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -16,8 +17,10 @@ app.get("/", (req, res) => {
   res.send("¯\\_(ツ)_/¯");
 });
 
-app.get("/auth", (req, res) => {
-  console.log('req', req);
+app.get("/auth", async (req, res) => {
+  const token = await Auth.grantSlackAccessToken(req.code);
+  console.log('req.code', req.code);
+  console.log('token', token);
   res.send('authed!');
 });
 
