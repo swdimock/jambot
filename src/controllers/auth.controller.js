@@ -19,6 +19,6 @@ exports.grantSlackAccessToken = (code) => {
       })
       .catch((error) => {
         reject(error);
-      })
+      });
   });
 }

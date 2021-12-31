@@ -28,6 +28,7 @@ app.get("/auth", async (req, res) => {
   } catch (error) {
     res.status(500).send('Failed', error);
   }
+  return;
 });
 
 app.listen(port, () => {
