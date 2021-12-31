@@ -5,7 +5,7 @@ exports.grantSlackAccessToken = (code) => {
   return new Promise((resolve, reject) => {
     axios({
       method: 'post',
-      url: 'https://slack.com/api/oauth.v2.access',
+      url: 'https://slack.com/api/oauth.access',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
