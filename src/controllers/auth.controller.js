@@ -10,6 +10,7 @@ exports.grantSlackAccessToken = (code) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       data: qs.stringify({
+        client_id: '2253718077476.2253862609716',
         code,
         redirect_uri: 'https://slack-jambot.herokuapp.com/auth'
       }),
