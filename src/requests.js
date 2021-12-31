@@ -19,10 +19,11 @@ app.get("/", (req, res) => {
 
 app.get("/auth", async (req, res) => {
   try {
-    console.log('waiting for the token...');
     const token = await Auth.grantSlackAccessToken(req.query.code);
-    console.log('got the token');
+    console.log('token', token);
+    console.log('token data', token.data);
     res.status(200).send('Success!', token.data);
+    res.send("Got it!");
   } catch (error) {
     res.status(500).send('Failed!', error);
   }
