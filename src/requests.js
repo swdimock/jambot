@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send("¯\\_(ツ)_/¯");
+  res.status(200).send("¯\\_(ツ)_/¯");
 });
 
 app.get("/auth", async (req, res) => {
