@@ -22,10 +22,13 @@ app.get("/auth", async (req, res) => {
     const token = await Auth.grantSlackAccessToken(req.query.code);
     console.log('token', token);
     console.log('token data', token.data);
-    res.status(200).send('Success!', token.data);
-    res.send("Got it!");
+    if (!token.data.ok) {
+      res.status(500).send('Error', token.data.error);
+    } else {
+      res.status(200).send('Success', token.data);
+    }
   } catch (error) {
-    res.status(500).send('Failed!', error);
+    res.status(500).send('Failed', error);
   }
 });
 
