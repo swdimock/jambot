@@ -31,7 +31,10 @@ app.get("/auth", async (req, res) => {
   if (!token.data.ok) {
     res.status(500).send(`Error: ${token.data.error}`);
   } else {
-    res.status(200).send(`Success ${JSON.stringify(token.data)}`);
+    // Save the access_token
+    // token.data.access_token
+    // token.data.bot_access_token
+    res.status(200).send(`By Jove!  You've done it!  Enabled at ${token.data.team_name}.`);
   }
 });
 
